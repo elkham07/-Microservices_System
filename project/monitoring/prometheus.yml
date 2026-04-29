@@ -1,0 +1,14 @@
+global:
+  scrape_interval: 5s
+scrape_configs:
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+  - job_name: 'services'
+    static_configs:
+      - targets: 
+        - 'auth-service:8001'
+        - 'product-service:8002'
+        - 'order-service:8003'
+        - 'user-service:8004'
+        - 'chat-service:8005'
