@@ -55,13 +55,33 @@
             margin-bottom: 20px;
         }
 
-        .card-title {
-            font-size: 16px;
-            font-weight: 600;
-            margin: 0 0 16px 0;
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
             padding-bottom: 12px;
             border-bottom: 1px solid var(--border-color);
         }
+
+        .card-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .badge {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: white;
+            background-color: #ccc;
+        }
+
+        .badge.up { background-color: #2ecc71; }
+        .badge.down { background-color: #e74c3c; }
 
         .status-box {
             background: #f9f9f9;
@@ -102,33 +122,80 @@
         </header>
 
         <div class="card">
-            <h2 class="card-title">Auth Service Test</h2>
+            <div class="card-header">
+                <h2 class="card-title">Auth Service</h2>
+                <span id="auth-badge" class="badge">Checking...</span>
+            </div>
             <div id="auth-status" class="status-box">Waiting to test...</div>
-            <button onclick="testAuthService()">Ping Auth Service</button>
+            <button onclick="testService('auth')">Ping Auth Service</button>
         </div>
-        
-        <!-- You can add more cards here for other services later -->
+
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">Product Service</h2>
+                <span id="product-badge" class="badge">Checking...</span>
+            </div>
+            <div id="product-status" class="status-box">Waiting to test...</div>
+            <button onclick="testService('product')">Ping Product Service</button>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">Order Service</h2>
+                <span id="order-badge" class="badge">Checking...</span>
+            </div>
+            <div id="order-status" class="status-box">Waiting to test...</div>
+            <button onclick="testService('order')">Ping Order Service</button>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">User Service</h2>
+                <span id="user-badge" class="badge">Checking...</span>
+            </div>
+            <div id="user-status" class="status-box">Waiting to test...</div>
+            <button onclick="testService('user')">Ping User Service</button>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">Chat Service</h2>
+                <span id="chat-badge" class="badge">Checking...</span>
+            </div>
+            <div id="chat-status" class="status-box">Waiting to test...</div>
+            <button onclick="testService('chat')">Ping Chat Service</button>
+        </div>
     </div>
 
     <script>
-        async function testAuthService() {
-            const statusEl = document.getElementById('auth-status');
-            statusEl.textContent = 'Testing connection...';
-            statusEl.style.color = '#555';
+        async function testService(serviceName) {
+            const statusEl = document.getElementById(`${serviceName}-status`);
+            const badgeEl = document.getElementById(`${serviceName}-badge`);
+            statusEl.textContent = `Testing connection to ${serviceName}...`;
             
             try {
-                // Fetching via API Gateway
-                const response = await fetch('/api/auth/health');
+                const response = await fetch(`/api/${serviceName}/health`);
                 if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
                 
                 const data = await response.json();
                 statusEl.textContent = 'Success: ' + JSON.stringify(data, null, 2);
                 statusEl.style.color = 'green';
+                
+                badgeEl.textContent = 'UP';
+                badgeEl.className = 'badge up';
             } catch (error) {
-                statusEl.textContent = 'Error: Could not connect to Auth Service.\n' + error.message;
+                statusEl.textContent = `Error: Could not connect to ${serviceName} Service.\n` + error.message;
                 statusEl.style.color = 'red';
+                
+                badgeEl.textContent = 'DOWN';
+                badgeEl.className = 'badge down';
             }
         }
+
+        // Run checks on load
+        window.onload = () => {
+            ['auth', 'product', 'order', 'user', 'chat'].forEach(testService);
+        };
     </script>
 </body>
 </html>
