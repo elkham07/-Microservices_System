@@ -165,6 +165,24 @@
             <div id="chat-status" class="status-box">Waiting to test...</div>
             <button onclick="testService('chat')">Ping Chat Service</button>
         </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">Payment Service</h2>
+                <span id="payment-badge" class="badge">Checking...</span>
+            </div>
+            <div id="payment-status" class="status-box">Waiting to test...</div>
+            <button onclick="testService('payment')">Ping Payment Service</button>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">Notification Service</h2>
+                <span id="notification-badge" class="badge">Checking...</span>
+            </div>
+            <div id="notification-status" class="status-box">Waiting to test...</div>
+            <button onclick="testService('notification')">Ping Notification Service</button>
+        </div>
     </div>
 
     <script>
@@ -194,7 +212,7 @@
 
         // Run checks on load
         window.onload = () => {
-            ['auth', 'product', 'order', 'user', 'chat'].forEach(testService);
+            ['auth', 'product', 'order', 'user', 'chat', 'payment', 'notification'].forEach(testService);
         };
     </script>
 </body>

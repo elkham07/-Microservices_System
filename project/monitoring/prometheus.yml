@@ -15,6 +15,8 @@ scrape_configs:
         - 'order-service:8003'
         - 'user-service:8004'
         - 'chat-service:8005'
+        - 'payment-service:8006'
+        - 'notification-service:8007'
 
   - job_name: 'postgres'
     static_configs:
