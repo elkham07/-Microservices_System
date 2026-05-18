@@ -16,6 +16,7 @@ spec:
       containers:
       - name: chat-service
         image: chat-service:latest
+        imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8005
         env:
